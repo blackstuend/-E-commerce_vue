@@ -1,11 +1,11 @@
 <template>
   <div>
-    <carousel :per-page="1" :paginationEnabled="false" :autoplay="true" :loop="true">
+    <carousel :per-page="1"  :autoplay="true" :loop="true"  :navigationEnabled="false">
       <slide data-index="0"
         ><div
           class="banner"
           style="
-            background-image: url(https://scontent.ftpe3-2.fna.fbcdn.net/v/t1.0-9/21462767_875493039271273_8251910181874576601_n.jpg?_nc_cat=105&ccb=2&_nc_sid=8bfeb9&_nc_ohc=ENGUDdEHZhUAX8Y6DMB&_nc_ht=scontent.ftpe3-2.fna&oh=13566754a99aa014770ec5d8a67a4ef5&oe=6023BE43);
+            background-image: url(https://media.u-mall.com.tw/BBCont/001988/1988121/a27ff778-48a2-4e22-9aea-5a16e5a96f50.jpg);
           "
         ></div
       ></slide>
@@ -39,7 +39,7 @@ export default {
 <style scoped lang="scss">
 .banner {
   width: 100%;
-  height: 600px;
+  height: 100vh;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;

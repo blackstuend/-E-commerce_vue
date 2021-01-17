@@ -21,9 +21,6 @@
             <i class="fas fa-shopping-cart"></i>
             <span class="badge badge-black" v-if="cart.length != 0">{{cart_count}}</span>
           </router-link>
-          <a class="navbar-item navbar-icon" href="#">
-            <i class="fas fa-search"></i>
-          </a>
         </div>
         <a class="navbar-bar" href="#" @click="open_side()">
           <i class="fas fa-bars fa-2x"></i>
@@ -94,6 +91,10 @@ export default {
   mounted() {
     
     let vm = this;
+    $(".navbar-side-item").click(function(){
+      vm.open = !vm.open;
+      $(".navbar-side").removeClass("open");
+    })
     $(".navbar-body").click(function () {
       vm.cancel_side();
     });
@@ -136,7 +137,7 @@ $text-color: #565656;
 }
 .navbar-item {
   padding: 0px 20px;
-  border-right: 1px solid $text-color;
+  // border-right: 1px solid $text-color;
   i {
     color: #fff;
   }
@@ -148,11 +149,10 @@ $text-color: #565656;
     }
   }
 }
-.navbar-item:nth-child(6) {
-  border-right: 0;
-}
+
 .navbar-body {
   display: none;
+  z-index:5;
 }
 @media (max-width: 1000px) {
   .navbar-item {
@@ -186,7 +186,7 @@ $text-color: #565656;
     left: 0;
     right: 0;
     background-color: rgba(0, 0, 0, 0.2);
-    z-index: 1;
+    z-index: 5;
     display: none;
     transition: all 0.5s;
     &.open {
