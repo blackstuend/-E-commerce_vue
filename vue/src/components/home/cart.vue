@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div class="banner h1 text-center text-white">Shopping Cart</div>
     <div v-if="cart.length == 0">
       <div class="container mt-5">
         <div class="alert alert-danger">購物車是空的唷~</div>
@@ -12,12 +13,12 @@
             <th>商品</th>
             <th width="80px">價格</th>
             <th class="text-right" width="80">數量</th>
-            <th class="text-right" width="58">操作</th>  
+            <th class="text-right" width="58">操作</th>
             <th class="text-right" scope="col">小計</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item,key) in cart" :key="item._id">
+          <tr v-for="(item, key) in cart" :key="item._id">
             <th scope="row">{{ item.name }}</th>
             <td>{{ item.price }}</td>
             <td class="text-right d-flex">
@@ -27,10 +28,12 @@
                 :max="999"
                 inline
                 controls
-                @change="updateCart(key,item.qty)"
+                @change="updateCart(key, item.qty)"
               ></number-input>
             </td>
-            <td class="px-0"><button class='btn btn-danger' @click="delcart(key)">刪除</button></td>
+            <td class="px-0">
+              <button class="btn btn-danger" @click="delcart(key)">刪除</button>
+            </td>
             <td class="text-right">{{ item.price * item.qty }}</td>
           </tr>
           <tr>
@@ -129,18 +132,18 @@ export default {
         }
       });
     },
-    delcart(key){
+    delcart(key) {
       let data = JSON.parse(localStorage.getItem("product"));
-      data.splice(key,1);
-      localStorage.setItem("product",JSON.stringify(data));
+      data.splice(key, 1);
+      localStorage.setItem("product", JSON.stringify(data));
       this.$store.dispatch("getCart");
     },
-    updateCart(key,qty){
+    updateCart(key, qty) {
       let data = JSON.parse(localStorage.getItem("product"));
       data[key].qty = qty;
-      localStorage.setItem("product",JSON.stringify(data));
+      localStorage.setItem("product", JSON.stringify(data));
       this.$store.dispatch("getCart");
-    }
+    },
   },
   created() {
     this.$store.dispatch("getCart");
@@ -149,4 +152,12 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+.banner{
+  line-height: 500px;
+  width: 100%;
+  height:500px;
+  background-position: center center;
+  background-size: cover;
+  background-image: url("https://images.unsplash.com/photo-1601091658622-09c1cf56db22?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80");
+}
 </style>

@@ -1,7 +1,11 @@
 <template>
   <div>
-    <div class="container">
-      <div class="row mt-5">
+    <div class="banner h1 text-center text-white mb-0">
+        {{product.categories }}
+    </div>
+    <div class="bg">
+    <div class="container py-5">
+      <div class="row">
         <div class="col-md-5">
           <div class="product_img">
             <img :src="product.imageUrl" alt="" width="300" height="200px" />
@@ -25,9 +29,10 @@
         </div>
       </div>
       <div class="font-weight-bold h4">產品介紹:</div>
-      <div>
+      <div >
         {{ product.description }}
       </div>
+    </div>
     </div>
   </div>
 </template>
@@ -63,3 +68,17 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="scss">
+.banner{
+  line-height: 500px;
+  width: 100%;
+  height:500px;
+  background-position: center center;
+  background-size: cover;
+  background-image: url("https://images.unsplash.com/photo-1591809704796-0c6cb2eb0474?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1350&q=80");
+}
+.bg{
+  background-color:#e5d1c2;
+}
+</style>

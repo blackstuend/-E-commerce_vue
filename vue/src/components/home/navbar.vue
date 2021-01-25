@@ -5,25 +5,27 @@
         class="container d-flex align-items-center justify-content-between navbar-flex"
       >
         <router-link class="navbar-brand" to="/">
-          <img :src="logo_src" alt="" />
+          <img :src="logo_src" alt="" v-if="!show_dark" />
+          <img :src="logo_dark" alt="" v-if="show_dark" />
         </router-link>
         <div class="navbar-group">
-          <router-link class="navbar-item" to="/story">
-            <span>品牌故事</span>
-          </router-link>
           <router-link class="navbar-item" to="/product">
             <span>線上商城</span>
+            <div class="navbar-item-border"></div>
           </router-link>
           <router-link class="navbar-item" to="/position">
             <span>聯絡我們</span>
+            <div class="navbar-item-border"></div>
           </router-link>
           <router-link class="navbar-item navbar-icon" to="/cart">
             <i class="fas fa-shopping-cart"></i>
-            <span class="badge badge-black" v-if="cart.length != 0">{{cart_count}}</span>
+            <span class="badge badge-black" v-if="cart.length != 0">{{
+              cart_count
+            }}</span>
           </router-link>
         </div>
-        <a class="navbar-bar" href="#" @click="open_side()">
-          <i class="fas fa-bars fa-2x"></i>
+        <a class="navbar-bar" href="#" @click.prevent="open_side()">
+          <i class="fas fa-bars fa-2x" id="bar"></i>
         </a>
       </div>
     </div>
@@ -33,12 +35,6 @@
           <img :src="logo_src" alt="" />
         </router-link>
         <div class="navbar-side-cancel">&#215;</div>
-        <router-link
-          to="/story"
-          class="navbar-side-item"
-        >
-          品牌故事
-        </router-link>
         <router-link to="/product" class="navbar-side-item">
           線上商城
         </router-link>
@@ -57,16 +53,18 @@ export default {
   data() {
     return {
       open: false,
-      logo_src:"",
+      logo_src: "",
+      logo_dark: "",
+      show_dark: false,
     };
   },
   computed: {
     ...mapState(["cart"]),
-    cart_count(){
+    cart_count() {
       let data = 0;
-      this.cart.forEach(function(item){
-        data+=item.qty;
-      })
+      this.cart.forEach(function (item) {
+        data += item.qty;
+      });
       return data;
     },
   },
@@ -85,25 +83,35 @@ export default {
       }, 1000);
     },
   },
-  created(){
-    this.logo_src = `${process.env.WEBSERVER}/images/logo.jpg`;
+  created() {
+    this.logo_src = `${process.env.WEBSERVER}/images/logo.png`;
+    this.logo_dark = `${process.env.WEBSERVER}/images/logo_dark.png`;
   },
   mounted() {
-    
     let vm = this;
-    $(".navbar-side-item").click(function(){
+    $(window).scroll(function () {
+      let Now_scrollPas = $(window).scrollTop();
+      if (Now_scrollPas != 0) {
+        vm.show_dark = true;
+        $(".navbar").addClass("navbar-down");
+      } else {
+        $(".navbar").removeClass("navbar-down");
+        vm.show_dark = false;
+      }
+    });
+    $(".navbar-side-item").click(function () {
       vm.open = !vm.open;
       $(".navbar-side").removeClass("open");
-    })
+    });
     $(".navbar-body").click(function () {
       vm.cancel_side();
     });
     $(".navbar-side").click(function (event) {
       event.stopPropagation();
     });
-    $(".navbar-side-cancel").click(function(){
-        vm.cancel_side();
-    })
+    $(".navbar-side-cancel").click(function () {
+      vm.cancel_side();
+    });
     this.$store.dispatch("getCart");
   },
 };
@@ -111,19 +119,56 @@ export default {
 <style lang="scss" scoped>
 $theme-color: #ff674f;
 $text-color: #565656;
+
+.navbar-item-border {
+  width: 0px;
+  height: 3px;
+  transition: all 0.3s;
+}
+
 .navbar {
-  color: #fff;
-  background-color: #000;
+  width: 100%;
+  position: fixed;
+  z-index: 1;
+  color: black;
+  background-color: transparent;
   .navbar-item {
     color: $text-color;
     &:hover {
       text-decoration: none;
+      .navbar-item-border {
+        background-color: white;
+        width: 70px;
+      }
     }
   }
+  &.navbar-down {
+    background-color: rgba(255, 255, 255, 1);
+    #bar {
+      color: #4c4948  !important;
+    }
+    .navbar-item {
+      i {
+        color: #4c4948 !important;
+      }
+      span {
+        color: #4c4948 !important;
+      }
+      &:hover {
+        .navbar-item-border {
+          width: 70px;
+          background-color: #4c4948;
+        }
+      }
+    }
+    box-shadow: 0 5px 6px -5px rgba(133, 133, 133, 0.6);
+  }
+}
+#bar {
+  color: white;
 }
 .navbar-bar {
   display: none;
-  color: #fff;
 }
 .navbar-group {
   display: flex;
@@ -144,15 +189,12 @@ $text-color: #565656;
   span {
     color: #fff;
     padding: 5px 0;
-    &:hover {
-      border-bottom: 1px solid $theme-color;
-    }
   }
 }
 
 .navbar-body {
   display: none;
-  z-index:5;
+  z-index: 5;
 }
 @media (max-width: 1000px) {
   .navbar-item {

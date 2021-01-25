@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="banner h1 text-center text-white mb-0">
+        Contact Us
+    </div>
     <div class="contact py-3">
       <div class="container">
         <div class="row">
@@ -84,6 +87,9 @@ export default {
       value: 1,
     };
   },
+  created(){
+    console.log(this.$route.name)
+  }
 };
 </script>
 
@@ -96,5 +102,14 @@ export default {
 .topics {
   border-left: 3px solid orange;
   font-weight: 800;
+}
+
+.banner{
+  line-height: 500px;
+  width: 100%;
+  height:500px;
+  background-position: center center;
+  background-size: cover;
+  background-image: url("https://images.unsplash.com/photo-1601091658622-09c1cf56db22?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80");
 }
 </style>
